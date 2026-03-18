@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Twenda Admin — Painel de Gestão</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="loginScreen">
+  <div class="login-bg"></div>
+  <div class="login-grid-lines"></div>
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h-4l-3 7h10l-2-7h-1"/><path d="M9 6l-2 7"/></svg>
+      </div>
+      <div>
+        <div class="login-logo-text">TWENDA</div>
+        <div class="login-logo-sub">Sistema de Gestão</div>
+      </div>
+    </div>
+    <div class="login-title">ENTRAR</div>
+    <div class="login-subtitle">Acesse o painel de administração da Twenda</div>
+    <div class="login-group">
+      <label>Utilizador</label>
+      <input type="text" id="loginUser" placeholder="admin" autocomplete="off" />
+    </div>
+    <div class="login-group">
+      <label>Palavra-passe</label>
+      <input type="password" id="loginPass" placeholder="••••••••" />
+      <div class="login-hint">Credenciais: admin / twenda2025</div>
+    </div>
+    <button class="login-btn" onclick="doLogin()">
+      Entrar no Painel
+    </button>
+    <div class="login-error" id="loginError">
+      ⚠️ Utilizador ou palavra-passe incorrectos.
+    </div>
+  </div>
+</div>
+
+<div id="adminPanel">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h-4l-3 7h10l-2-7h-1"/><path d="M9 6l-2 7"/></svg>
+      </div>
+      <div>
+        <div class="sidebar-logo-text">TWENDA</div>
+        <div class="sidebar-logo-badge">Admin Panel</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Principal</div>
+      <div class="nav-item active" onclick="goPage('dashboard',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item" onclick="goPage('agendamentos',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Agendamentos
+        <span class="nav-badge" id="pendingBadge">3</span>
+      </div>
+      <div class="nav-item" onclick="goPage('pilotes',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Pilotes
+      </div>
+      <div class="nav-item" onclick="goPage('clientes',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Clientes
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Sistema</div>
+      <div class="nav-item" onclick="goPage('notificacoes',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        Notificações
+        <span class="nav-badge">2</span>
+      </div>
+      <div class="nav-item" onclick="goPage('configuracoes',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Configurações
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">A</div>
+        <div>
+          <div class="sidebar-user-name">Administrador</div>
+          <div class="sidebar-user-role">Twenda — Luanda</div>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Terminar Sessão
+      </button>
+    </div>
+  </aside>
+  <div class="main-wrap">
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" onclick="toggleSidebar()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div>
+          <div class="topbar-title" id="topbarTitle">DASHBOARD</div>
+          <div class="topbar-subtitle" id="topbarSub">Visão geral do sistema</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-date" id="topbarDate"></span>
+        <a href="https://wa.me/244922878879" target="_blank" class="topbar-wa">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+    </header>
+
+    <div class="page active" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon orange">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <span class="stat-trend up">+12%</span>
+          </div>
+          <div class="stat-num" id="statTotal">24</div>
+          <div class="stat-label">Total de Agendamentos</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-top">
+            <div class="stat-icon green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <span class="stat-trend up">+8%</span>
+          </div>
+          <div class="stat-num" id="statDone">18</div>
+          <div class="stat-label">Serviços Concluídos</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-top">
+            <div class="stat-icon blue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <span class="stat-trend up">3</span>
+          </div>
+          <div class="stat-num" id="statPending">3</div>
+          <div class="stat-label">Pendentes Hoje</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon orange">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <span class="stat-trend up">+1</span>
+          </div>
+          <div class="stat-num">4</div>
+          <div class="stat-label">Pilotes Activos</div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div>
+              <div class="chart-card-title">AGENDAMENTOS — ÚLTIMOS 7 DIAS</div>
+            </div>
+          </div>
+          <div class="chart-bars" id="chartBars"></div>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--muted)"><div style="width:10px;height:10px;border-radius:3px;background:var(--orange)"></div>Agendamentos</div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">SERVIÇOS</div>
+          </div>
+          <div class="service-breakdown">
+            <div class="sb-item">
+              <div class="sb-icon" style="background:rgba(251,161,13,0.12)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBA10D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h-4l-3 7h10l-2-7h-1"/></svg></div>
+              <div style="flex:1"><div class="sb-label">Moto Táxi</div><div class="sb-count">14 corridas</div></div>
+              <div class="sb-bar-wrap"><div class="sb-bar" style="width:58%"></div></div>
+              <div class="sb-pct">58%</div>
+            </div>
+            <div class="sb-item">
+              <div class="sb-icon" style="background:rgba(59,130,246,0.12)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"/><circle cx="18.5" cy="15.5" r="2.5"/></svg></div>
+              <div style="flex:1"><div class="sb-label">Entregas</div><div class="sb-count">6 entregas</div></div>
+              <div class="sb-bar-wrap"><div class="sb-bar" style="width:25%;background:#60a5fa"></div></div>
+              <div class="sb-pct" style="color:#60a5fa">25%</div>
+            </div>
+            <div class="sb-item">
+              <div class="sb-icon" style="background:rgba(34,197,94,0.12)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+              <div style="flex:1"><div class="sb-label">Transporte</div><div class="sb-count">4 viagens</div></div>
+              <div class="sb-bar-wrap"><div class="sb-bar" style="width:17%;background:#4ade80"></div></div>
+              <div class="sb-pct" style="color:#4ade80">17%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:28px">
+        <div class="section-header">
+          <div><h2>AGENDAMENTOS RECENTES</h2><p>Últimas reservas recebidas</p></div>
+          <button class="btn-add" onclick="goPage('agendamentos', document.querySelector('.nav-item:nth-child(2)'))">Ver Todos</button>
+        </div>
+        <div class="table-wrap">
+          <div class="recent-list" id="recentList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-agendamentos">
+      <div class="section-header">
+        <div><h2>AGENDAMENTOS</h2><p>Gestão de todas as reservas</p></div>
+        <button class="btn-add" onclick="openModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Novo Agendamento
+        </button>
+      </div>
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="search-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="searchInput" placeholder="Pesquisar por nome, telefone..." oninput="renderTable()" />
+          </div>
+          <div class="filter-row">
+            <button class="filter-btn active" onclick="setFilter('todos',this)">Todos</button>
+            <button class="filter-btn" onclick="setFilter('Pendente',this)">Pendente</button>
+            <button class="filter-btn" onclick="setFilter('Confirmado',this)">Confirmado</button>
+            <button class="filter-btn" onclick="setFilter('Concluído',this)">Concluído</button>
+            <button class="filter-btn" onclick="setFilter('Cancelado',this)">Cancelado</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Serviço</th>
+                <th>Partida</th>
+                <th>Destino</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Estado</th>
+                <th>Acções</th>
+              </tr>
+            </thead>
+            <tbody id="bookingTableBody"></tbody>
+          </table>
+          <div class="empty-state" id="emptyState" style="display:none">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <h3>Nenhum agendamento encontrado</h3>
+            <p>Ajuste os filtros ou adicione um novo agendamento.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-pilotes">
+      <div class="section-header">
+        <div><h2>PILOTES</h2><p>Equipa de condutores activos</p></div>
+        <button class="btn-add" onclick="openPiloteModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Adicionar Pilote
+        </button>
+      </div>
+      <div class="pilotes-grid" id="pilotesGrid"></div>
+    </div>
+
+    <div class="page" id="page-clientes">
+      <div class="section-header">
+        <div><h2>CLIENTES</h2><p>Base de dados de clientes</p></div>
+      </div>
+      <div class="table-wrap">
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Total Corridas</th>
+                <th>Último Serviço</th>
+                <th>Estado</th>
+                <th>Acções</th>
+              </tr>
+            </thead>
+            <tbody id="clientesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-notificacoes">
+      <div class="section-header">
+        <div><h2>NOTIFICAÇÕES</h2><p>Alertas e avisos do sistema</p></div>
+        <button class="btn-add" onclick="clearNotifs()" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-weight:600">Limpar Todas</button>
+      </div>
+      <div class="notif-list" id="notifList"></div>
+    </div>
+
+    <div class="page" id="page-configuracoes">
+      <div class="section-header">
+        <div><h2>CONFIGURAÇÕES</h2><p>Parâmetros do sistema</p></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:800px">
+        <div class="chart-card">
+          <div class="chart-card-title" style="margin-bottom:20px">INFORMAÇÕES DA EMPRESA</div>
+          <div class="form-group"><label>Nome</label><input type="text" value="Twenda" /></div>
+          <div class="form-group"><label>WhatsApp</label><input type="text" value="+244 922 878 879" /></div>
+          <div class="form-group"><label>Instagram</label><input type="text" value="@twenda_" /></div>
+          <div class="form-group"><label>Localização</label><input type="text" value="Luanda, Angola" /></div>
+          <button class="btn-save" style="margin-top:8px">Guardar Alterações</button>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title" style="margin-bottom:20px">SEGURANÇA</div>
+          <div class="form-group"><label>Nova Palavra-passe</label><input type="password" placeholder="••••••••" /></div>
+          <div class="form-group"><label>Confirmar Palavra-passe</label><input type="password" placeholder="••••••••" /></div>
+          <button class="btn-save" style="margin-top:8px">Alterar Palavra-passe</button>
+          <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+            <div class="chart-card-title" style="font-size:1rem;margin-bottom:14px">HORÁRIO DE SERVIÇO</div>
+            <div class="form-group"><label>Abertura</label><input type="time" value="06:00" /></div>
+            <div class="form-group"><label>Encerramento</label><input type="time" value="23:00" /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">NOVO AGENDAMENTO</div>
+      <button class="modal-close" onclick="closeModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="form-row2">
+      <div class="form-group"><label>Nome *</label><input type="text" id="m-nome" placeholder="Nome do cliente" /></div>
+      <div class="form-group"><label>Telefone *</label><input type="tel" id="m-tel" placeholder="9XX XXX XXX" /></div>
+    </div>
+    <div class="form-group">
+      <label>Serviço *</label>
+      <select id="m-servico">
+        <option value="" disabled selected>Selecione</option>
+        <option>Moto Táxi</option>
+        <option>Entrega de Encomenda</option>
+        <option>Transporte Urbano</option>
+        <option>Transporte Especial</option>
+      </select>
+    </div>
+    <div class="form-row2">
+      <div class="form-group"><label>Data *</label><input type="date" id="m-data" /></div>
+      <div class="form-group"><label>Hora *</label><input type="time" id="m-hora" /></div>
+    </div>
+    <div class="form-group"><label>Local de Partida *</label><input type="text" id="m-partida" placeholder="Bairro / Rua de partida" /></div>
+    <div class="form-group"><label>Destino *</label><input type="text" id="m-destino" placeholder="Destino final" /></div>
+    <div class="form-group">
+      <label>Estado</label>
+      <select id="m-status">
+        <option value="Pendente">⏳ Pendente</option>
+        <option value="Confirmado">✅ Confirmado</option>
+        <option value="Concluído">🏁 Concluído</option>
+        <option value="Cancelado">❌ Cancelado</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Observações</label><textarea id="m-obs" rows="2" placeholder="Notas adicionais..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-save" onclick="saveBooking()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — Pilote -->
+<div class="modal-overlay" id="piloteModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">ADICIONAR PILOTE</div>
+      <button class="modal-close" onclick="closePiloteModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="form-row2">
+      <div class="form-group"><label>Nome Completo *</label><input type="text" id="p-nome" placeholder="Nome do pilote" /></div>
+      <div class="form-group"><label>Telefone *</label><input type="tel" id="p-tel" placeholder="9XX XXX XXX" /></div>
+    </div>
+    <div class="form-row2">
+      <div class="form-group"><label>BI / Carta de Condução</label><input type="text" id="p-doc" placeholder="Nº do documento" /></div>
+      <div class="form-group"><label>Zona de Actuação</label><input type="text" id="p-zona" placeholder="Ex: Talatona, Miramar" /></div>
+    </div>
+    <div class="form-group">
+      <label>Estado</label>
+      <select id="p-status"><option>Activo</option><option>Inactivo</option><option>De Folga</option></select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closePiloteModal()">Cancelar</button>
+      <button class="btn-save" onclick="savePilote()">Adicionar</button>
+    </div>
+  </div>
+</div>
+<script src="js/script.js"></script>
+</body>
+</html>
